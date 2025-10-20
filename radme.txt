@@ -1,0 +1,116 @@
+Ensure the following are installed and configured:
+
+    Docker (running)
+    Python
+        (venv) rajeendra@admins-mbp pizza-rag-project % python3 --version
+        Python 3.11.7
+    pip / pip3
+        (venv) rajeendra@admins-mbp pizza-rag-project % pip3 --version
+        pip 23.3.1 from /Users/rajeendra/Data/workspace-AI/pizza-rag-project/venv/lib/python3.11/site-packages/pip (python 3.11)
+
+
+Project Setup and File Creation
+
+    1. Create the Project Directory:
+        mkdir pizza-rag-project
+        cd pizza-rag-project
+    
+    2. Create the Python Script:
+        touch first-main-google-gemini.py
+    
+    3. Create the Data File:
+        touch pizza_reviews.csv
+
+    4. Dependency Installation
+        # Create the virtual environment
+        python3 -m venv venv
+
+        # Activate the environment
+        source venv/bin/activate
+
+        Note: Your command prompt will now show (venv) at the beginning
+
+    5. Install Required Libraries:
+        pip3 install pandas \
+                    langchain \
+                    'singlestoredb[docker]' \
+                    langchain-singlestore \
+                    langchain-google-genai
+
+    6. Environment Configuration (API Key)
+
+        Get Your API Key: Go to Google AI Studio to generate your free API key.
+
+        Set the Environment Variable: Run this command in your active terminal session.
+            export GOOGLE_API_KEY="YOUR_API_KEY_HERE"
+
+Run
+    1. Ensure Docker Desktop is running on your machine.
+
+    2. Ensure your Gemini API Key is set in your shell:
+        Bash: export GOOGLE_API_KEY="YOUR_API_KEY_HERE"
+
+    3.Run the script:
+        Bash: python3 first-main-google-gemini.py
+
+
+Background knowlage
+
+    Tech stack
+
+    Component Category,       Recommended                                       Why You Need It
+                            Software / Library,        
+    -----------------------------------------------------------------------------------------------------
+    Development Environment,  Python (3.9+),                                    The universal language for LLM frameworks like LangChain/LlamaIndex.
+    Code Editor,              VS Code (or your preferred IDE),                  For writing and debugging the application logic.
+    Package Manager,          pip and Virtual Environments (venv or conda),     To manage dependencies and isolate the project environment.
+    LLM Framework,            LangChain or LlamaIndex,                          "This is your LLM Framework and AI Agent layer, handling the orchestration (Step 2, 4, 7)."
+
+    Local LLM Runner,         Ollama or GPT4All,                                "Allows you to download, run, and interact with open-source LLMs (like Llama 3, Mistral, or Gemma) locally via an OpenAI-compatible API (replacing the need for a remote API key for the LLM itself)."
+    Cloud LLM Runner,         Google Gemini API.                                "Allows you to connect, run, and interact with via Google Gemini API with a remote API key
+
+
+    Vector Database,          ChromaDB or Faiss,                                "These can be run in-memory or on your local file system, fulfilling the Vector Database and RAG System functions (Step 5) without needing a dedicated server setup."
+    Frontend/UI (Optional),   Streamlit or Gradio,                              "Simple Python libraries to quickly build a web interface for user input/output (Step 1 & 8), making the demo interactive."
+    API Key Management,       python-dotenv,                                    To securely load API keys from a .env file into your application.
+
+
+    1. Development Environment
+        Code Editor - vscode
+        Package Manager - pip
+        Virtual Environments (venv or conda),
+
+    2. LLM Framework
+        LangChain - LangChain libs
+            from langchain_core.prompts import ChatPromptTemplate
+            from langchain_core.documents import Document
+            from langchain_singlestore import SingleStoreVectorStore
+
+    3. LLM Runner component,
+        option 1 - Local
+            LLM server 
+                (Ollama local installation) 
+    
+        option 2 - cloud intergation
+            cloud API with a simple-to-use Python library, such as the Google Gemini API.
+            (LangChain libs - from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI)
+
+    4. Data (Database, vector store, Embeddings)
+            Docker
+            SingleStoreDB Database
+            Data source document
+            from source (CSV) and convert to Document objects
+            Embeddings Model
+            Set up vector store using the CONSTRUCTOR
+            Create retriever that fetches info for each query
+   
+    5. Chain / Ocusrtration
+        To chain an LLM runner and prompt, you create a sequence where the output of one prompt becomes the input for the next, 
+        breaking down a complex task into smaller, manageable steps. 
+        Frameworks like LangChain simplify this process by providing a structure that links a prompt template, an LLM, and an optional output parser, managing the data flow and execution between each step. 
+
+
+    This approach (option 2) avoids all local installation issues on your Mac for the LLM component, 
+    and the SingleStoreDB container setup can remain as is.
+
+
