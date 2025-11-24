@@ -1,6 +1,24 @@
 #  refer readme.txt to run the project
 
+
+# Where is pandas positining in the AI echo system ?
+#
+# 1. The Foundational Layer: Data & Models
+#    A. Data Science & Data Engineering
+#           Data Sourcing & Cleaning
+#           Feature Engineering
+#           Tools/Concepts to Study
+#               Python Libraries: Pandas (for data manipulation), NumPy (for numerical operations).
+#               Databases/Storage:
+#    B. Machine Learning (ML) Models & LLMs
+#            Learning the Models: Understanding the different types of models and learning paradigms:
+#            Large Language Models (LLMs): Massive deep learning models (like GPT, Gemini, Llama)
+#               your work will involve using or fine-tuning existing LLMs, not training them from scratch.
+#            Tools/Concepts to Study
+#               Frameworks: PyTorch and TensorFlow (fundamental ML frameworks).
+#               LLM Ecosystem: Hugging Face (for pre-trained models), various open-source LLMs (Llama, Mistral).   
 import pandas as pd
+
 from singlestoredb.server import docker
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.documents import Document

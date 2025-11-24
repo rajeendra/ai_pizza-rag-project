@@ -1,116 +1,210 @@
-Ensure the following are installed and configured:
 
-    Docker (running)
-    Python
-        (venv) rajeendra@admins-mbp pizza-rag-project % python3 --version
-        Python 3.11.7
-    pip / pip3
-        (venv) rajeendra@admins-mbp pizza-rag-project % pip3 --version
-        pip 23.3.1 from /Users/rajeendra/Data/workspace-AI/pizza-rag-project/venv/lib/python3.11/site-packages/pip (python 3.11)
+Reference
+    https://gemini.google.com/app
+        AI Biginner Guide
+
+        As above described 3 layers: Foundational Layer, Development Layer, Interface Layer. 
+        Where are the below mentioned areas cover up in the first-main-google-gemini.py script, if their's?
+
+            1. Learning the Models, such as training, deployment, monitoring 
+            2. Large Language Models (LLMs)
+            3. Frameworks such as PyTorch and TensorFlow
+            4. LLM Application Frameworks
+            5. Prompt Engineering
+            6. Context Engineering
+            7. Agentic AI
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+1. Option 1 - Cloud intergation 
+
+This first AI script
+This use the Google's gemini API and local vector storage with embedded data produced from pizza_reviews.csv document
+
+    Files
+        first-main-google-gemini.py
+        google-gemini-agentic.py
+        pizza_reviews.csv
+
+    Ensure the following are installed and configured:
+
+        Note:   Once you started with CommandLineInterpritor, you are equiped with below tools as you installed
+                In addition, you have to activate the environment on CLI with "source venv/bin/activate" command
+
+        Docker (running)
+        Python
+            (venv) rajeendra@admins-mbp pizza-rag-project % python3 --version
+            Python 3.11.7
+        pip / pip3
+            (venv) rajeendra@admins-mbp pizza-rag-project % pip3 --version
+            pip 23.3.1 from /Users/rajeendra/Data/workspace-AI/pizza-rag-project/venv/lib/python3.11/site-packages/pip (python 3.11)
 
 
-Project Setup and File Creation
+    Project Setup and File Creation
 
-    1. Create the Project Directory:
-        mkdir pizza-rag-project
-        cd pizza-rag-project
+        1. Create the Project Directory:
+            mkdir pizza-rag-project
+            cd pizza-rag-project
+        
+        2. Create the Python Script:
+            touch first-main-google-gemini.py
+        
+        3. Create the Data File:
+            touch pizza_reviews.csv
+
+        4. Dependency Installation
+            # Create the virtual environment
+            python3 -m venv venv
+
+            # Activate the environment
+            source venv/bin/activate
+
+            Note: Your command prompt will now show (venv) at the beginning
+
+        5. Install Required Libraries:
+            pip3 install pandas \
+                        langchain \
+                        'singlestoredb[docker]' \
+                        langchain-singlestore \
+                        langchain-google-genai
+
+        6. Environment Configuration (API Key)
+
+            Get Your API Key: Go to Google AI Studio to generate your free API key.
+
+            Set the Environment Variable: Run this command in your active terminal session.
+                export GOOGLE_API_KEY="YOUR_API_KEY_HERE"
+
+    Run
+        1. Ensure Docker Desktop is running on your machine.
+
+        2. Ensure your Gemini API Key is set in your shell:
+            Bash: export GOOGLE_API_KEY="YOUR_API_KEY_HERE"
+
+        3.Run the script:
+            Bash: python3 first-main-google-gemini.py
+
+
+    Background knowlage
+
+        Tech stack
+
+        Component Category,       Recommended                                       Why You Need It
+                                Software / Library,        
+        -----------------------------------------------------------------------------------------------------
+        Development Environment,  Python (3.9+),                                    The universal language for LLM frameworks like LangChain/LlamaIndex.
+        Code Editor,              VS Code (or your preferred IDE),                  For writing and debugging the application logic.
+        Package Manager,          pip and Virtual Environments (venv or conda),     To manage dependencies and isolate the project environment.
+        LLM Framework,            LangChain or LlamaIndex,                          "This is your LLM Framework and AI Agent layer, handling the orchestration (Step 2, 4, 7)."
+
+        Local LLM Runner,         Ollama or GPT4All,                                "Allows you to download, run, and interact with open-source LLMs (like Llama 3, Mistral, or Gemma) locally via an OpenAI-compatible API (replacing the need for a remote API key for the LLM itself)."
+        Cloud LLM Runner,         Google Gemini API.                                "Allows you to connect, run, and interact with via Google Gemini API with a remote API key
+
+
+        Vector Database,          ChromaDB or Faiss,                                "These can be run in-memory or on your local file system, fulfilling the Vector Database and RAG System functions (Step 5) without needing a dedicated server setup."
+        Frontend/UI (Optional),   Streamlit or Gradio,                              "Simple Python libraries to quickly build a web interface for user input/output (Step 1 & 8), making the demo interactive."
+        API Key Management,       python-dotenv,                                    To securely load API keys from a .env file into your application.
+
+
+        1. Development Environment
+            Code Editor - vscode
+            Package Manager - pip
+            Virtual Environments (venv or conda),
+
+        2. LLM Framework
+            LangChain - LangChain libs
+                from langchain_core.prompts import ChatPromptTemplate
+                from langchain_core.documents import Document
+                from langchain_singlestore import SingleStoreVectorStore
+
+        3. LLM Runner component,
+            Option 1 - Cloud intergation
+                cloud API with a simple-to-use Python library, such as the Google Gemini API.
+                (LangChain libs - from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI)
+
+            Option 2 - Local
+                LLM server 
+                    (Ollama local installation) 
+
+        4. Data (Database, vector store, Embeddings)
+                Docker
+                SingleStoreDB Database
+                Data source document
+                from source (CSV) and convert to Document objects
+                Embeddings Model
+                Set up vector store using the CONSTRUCTOR
+                Create retriever that fetches info for each query
     
-    2. Create the Python Script:
-        touch first-main-google-gemini.py
-    
-    3. Create the Data File:
-        touch pizza_reviews.csv
-
-    4. Dependency Installation
-        # Create the virtual environment
-        python3 -m venv venv
-
-        # Activate the environment
-        source venv/bin/activate
-
-        Note: Your command prompt will now show (venv) at the beginning
-
-    5. Install Required Libraries:
-        pip3 install pandas \
-                    langchain \
-                    'singlestoredb[docker]' \
-                    langchain-singlestore \
-                    langchain-google-genai
-
-    6. Environment Configuration (API Key)
-
-        Get Your API Key: Go to Google AI Studio to generate your free API key.
-
-        Set the Environment Variable: Run this command in your active terminal session.
-            export GOOGLE_API_KEY="YOUR_API_KEY_HERE"
-
-Run
-    1. Ensure Docker Desktop is running on your machine.
-
-    2. Ensure your Gemini API Key is set in your shell:
-        Bash: export GOOGLE_API_KEY="YOUR_API_KEY_HERE"
-
-    3.Run the script:
-        Bash: python3 first-main-google-gemini.py
+        5. Chain / Ocusrtration
+            To chain an LLM runner and prompt, you create a sequence where the output of one prompt becomes the input for the next, 
+            breaking down a complex task into smaller, manageable steps. 
+            Frameworks like LangChain simplify this process by providing a structure that links a prompt template, an LLM, and an optional output parser, managing the data flow and execution between each step. 
 
 
-Background knowlage
+        This approach (option 2) avoids all local installation issues on your Mac for the LLM component, 
+        and the SingleStoreDB container setup can remain as is.
 
-    Tech stack
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+2. Option 2 - Local
 
-    Component Category,       Recommended                                       Why You Need It
-                            Software / Library,        
-    -----------------------------------------------------------------------------------------------------
-    Development Environment,  Python (3.9+),                                    The universal language for LLM frameworks like LangChain/LlamaIndex.
-    Code Editor,              VS Code (or your preferred IDE),                  For writing and debugging the application logic.
-    Package Manager,          pip and Virtual Environments (venv or conda),     To manage dependencies and isolate the project environment.
-    LLM Framework,            LangChain or LlamaIndex,                          "This is your LLM Framework and AI Agent layer, handling the orchestration (Step 2, 4, 7)."
+Building a basic, functional LLM, locally
+    is an excellent way to understand the Foundational Layer of AI development. 
+    Since PyTorch is often the preferred framework for building applications to these AI architectures, 
+    I'll provide a guide using a minimal Transformer Block model as a simple example.
 
-    Local LLM Runner,         Ollama or GPT4All,                                "Allows you to download, run, and interact with open-source LLMs (like Llama 3, Mistral, or Gemma) locally via an OpenAI-compatible API (replacing the need for a remote API key for the LLM itself)."
-    Cloud LLM Runner,         Google Gemini API.                                "Allows you to connect, run, and interact with via Google Gemini API with a remote API key
+    Files
+        mini_transformer.py
+        mini_transformer.pth
+            With above transformer, after train with data, save the model in this .pth file
 
+        local_llm_client.py 
+            Use the MiniTransformer class inside Mini_transformer.py and 'mini_transformer.pth" model to produce the output
 
-    Vector Database,          ChromaDB or Faiss,                                "These can be run in-memory or on your local file system, fulfilling the Vector Database and RAG System functions (Step 5) without needing a dedicated server setup."
-    Frontend/UI (Optional),   Streamlit or Gradio,                              "Simple Python libraries to quickly build a web interface for user input/output (Step 1 & 8), making the demo interactive."
-    API Key Management,       python-dotenv,                                    To securely load API keys from a .env file into your application.
+    Learning the Models (training, deployment, monitoring)
+        Model - Transformer ()
+        Frameworks such as PyTorch and TensorFlow - build and train
 
+        mini_transformer.py
+        This file now ensures the MiniTransformer class dynamically accepts the vocab_size and the training function uses the actual calculated size (21) instead of the hardcoded default (65)
 
-    1. Development Environment
-        Code Editor - vscode
-        Package Manager - pip
-        Virtual Environments (venv or conda),
+        Mini_transformer.py is the model code. (Transformer)
+            We won't build a full large model (which takes weeks and massive GPUs), 
+            but a minimal Transformer-based sequence predictor that can learn simple text patterns. 
+            This focuses on the core components: Embeddings, Self-Attention, and a Feed-Forward Network.
 
-    2. LLM Framework
-        LangChain - LangChain libs
-            from langchain_core.prompts import ChatPromptTemplate
-            from langchain_core.documents import Document
-            from langchain_singlestore import SingleStoreVectorStore
+        mini_transformer.py for Training and Saving the Model
+            Code to handle data, training, and saving
 
-    3. LLM Runner component,
-        option 1 - Local
-            LLM server 
-                (Ollama local installation) 
-    
-        option 2 - cloud intergation
-            cloud API with a simple-to-use Python library, such as the Google Gemini API.
-            (LangChain libs - from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI)
+        local_llm_client.py (Client Script)
+            This file now dynamically loads the correct vocabulary size from the saved file before creating the MiniTransformer instance
 
-    4. Data (Database, vector store, Embeddings)
-            Docker
-            SingleStoreDB Database
-            Data source document
-            from source (CSV) and convert to Document objects
-            Embeddings Model
-            Set up vector store using the CONSTRUCTOR
-            Create retriever that fetches info for each query
-   
-    5. Chain / Ocusrtration
-        To chain an LLM runner and prompt, you create a sequence where the output of one prompt becomes the input for the next, 
-        breaking down a complex task into smaller, manageable steps. 
-        Frameworks like LangChain simplify this process by providing a structure that links a prompt template, an LLM, and an optional output parser, managing the data flow and execution between each step. 
+    Large Language Models (LLMs)
+        Fine Tune, Work with Embeddings
+    LLM Application Frameworks
+        LangChain
+    Prompt Engineering
+        This is explicitly defined in your code within the template variable and the ChatPromptTemplate object
+    Context Engineering (RAG)
+        Embedding external data, Storing, Retrieving and injecting into the prompt 
+    Agentic AI
+        planning, self-correction, or dynamic tool-use capabilities    
 
 
-    This approach (option 2) avoids all local installation issues on your Mac for the LLM component, 
-    and the SingleStoreDB container setup can remain as is.
 
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+Data science / engineering ( Ex: above step 4 )
 
+    What is the term being used when preparing data to be compliance with LLM?
+
+    There is no single term for "converting data to LLM compliance." Instead, it's a multi-step process called data preprocessing and data curation that involves various techniques such as tokenization, data anonymization, annotation, and classification to ensure data is clean, structured, and compliant with privacy and safety regulations. The goal is to make the data suitable for training an LLM while protecting sensitive information. 
+
+    Key steps in the data compliance process
+        Tokenization: Converting text into numerical tokens that the LLM can process.
+        Data Masking and Anonymization: Identifying and masking sensitive data, or converting it into "stand-in" tokens to prevent it from leaking while still being usable by the model.
+        Annotation and Labeling: Adding labels or metadata to the data to identify and flag compliance-related information, such as GDPR status or violations.
+        Data Classification: Categorizing data based on attributes like domain and quality to help the model understand context and to filter out harmful or unwanted content.
+        Data Normalization: Standardizing text to remove inconsistencies, special characters, and formatting artifacts.
+        Chunking: Breaking down large documents into smaller, more manageable parts for efficient processing. 
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
